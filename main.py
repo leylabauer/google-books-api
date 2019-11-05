@@ -33,10 +33,6 @@ class bookSearching:
         bookinfo = list(zip(books, authors, publishers))
         return bookinfo
 
-    def books_as_tuples_in_list(self, books, authors, publishers):
-        pass
-        
-
 class userInput:
 
     def __init__(self, text="", searchtype="", keyword="" ):
@@ -69,6 +65,18 @@ class userInput:
         keyword = input("What's the keyword for the book you want? ")
         return keyword
 
+    def select_a_book(self):
+        selected_book = input("What book number do you want to select?")
+        # if selected_book:
+
+class userInputRules:
+
+    def __init__(self):
+        pass
+
+    def is_user_selection_a_number(self, selected_book):
+        return if type(selected_book) is int
+
 class printToCL:
 
     def __init__(self):
@@ -80,7 +88,6 @@ class printToCL:
             print("Info on Book #"+ str(i) +": ")
             print(item)
             i = i + 1
-
 
 class runProgram:
 
@@ -94,8 +101,6 @@ class runProgram:
         searchtype = self.userInput.get_searchtype()
         keyword = self.userInput.get_search_keyword()
         bookinfo = self.bookSearching.search_for_books(text, searchtype, keyword)
-        # bookinfo = self.bookSearching.books_as_tuples_in_list()
-        print(bookinfo)
         self.printToCL.print_book_info(bookinfo)
 
 booksearch = bookSearching()
