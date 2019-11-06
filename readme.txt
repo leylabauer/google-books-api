@@ -6,19 +6,18 @@ in building this project:
 
 1. created a conda environment, google_books_env
 
-You left off trying to get the user to select a book. YOu'll have to re-do how 
-you're grabbing and organizing the book info cause it's kinda confusing.
-But, you'll want to add that and have the user select a book by number.
-Then, that number can be added to the bookshelf called ReadingList.
-The user will then have to be able to view the ReadingList
-From there, add in yer tests!
 
-You need to figure out how to better organize the info, so that the info
-for each book is listed separately on a separate line. I'm not sure how to do
-that, however. 
-Then, you need to be sure the person can grab a book and put in on a 
-reading list.
 
 Edge cases to solve for:
 if the user enters a keyword that doesn't work
-if the user wants to quit
+
+
+Trying to fix a logic error and separating out how to select a book and add it to the reading list. 
+But, the book info is only being saved in the one method from searching so I can't access it. Should
+I have it as a variable used in that entire object then, maybe?
+YES THAT WAS THE ANSWER BITCH. HOLY FUCK.
+
+somethign that has no results:
+fart
+insubjecct
+fartbox

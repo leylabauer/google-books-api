@@ -1,19 +1,18 @@
 import json
 import requests
-# from collections import Counter probably take that out.
 import operator
 
 key = 'AIzaSyCU2dyXMyOEp9rhcYonOmrhQ_ugikWyi9s'
 
 class bookSearching:
 
-    def __init__(self, reading_list={}):
+    def __init__(self, reading_list={}, bookinfo = {}):
         self.reading_list = reading_list
+        self.bookinfo = bookinfo
 
     def search_for_books(self, text, searchtype, keyword):
         response = requests.get('https://www.googleapis.com/books/v1/volumes?q=' + text + '+' + searchtype + ':' + keyword + '&key=AIzaSyCU2dyXMyOEp9rhcYonOmrhQ_ugikWyi9s')
         data = json.loads(response.text)
-        bookinfo = {}
         j = 1
         for i in range(5):
             try: 
@@ -27,13 +26,13 @@ class bookSearching:
             try: 
                 publisher = data["items"][i]["volumeInfo"]["publisher"]
             except:
-                publisher = "No publisher listed."
-            bookinfo.update({j: [title, author, publisher]})
+                publisher = "No publisher listed"
+            self.bookinfo.update({j: [title, author, publisher]})
             j += 1
-        return bookinfo
+        return self.bookinfo
 
     def add_selected_book_to_reading_list(self, selected_book, bookinfo):
-        selected_book_to_add = bookinfo[int(selected_book)]
+        selected_book_to_add = self.bookinfo[int(selected_book)]
         book_number = len(self.reading_list) + 1
         self.reading_list.update({book_number: selected_book_to_add})
 
@@ -92,6 +91,11 @@ class userInputRules:
         if type(int(selected_book)) is int:
             return True
 
+    def check_if_search_is_empty(self, bookinfo):
+        if bookinfo[1] == ["No title listed", "No authors listed", "No publisher listed"]:
+            return True
+
+
 class printToCL:
 
     def __init__(self):
@@ -146,6 +150,12 @@ class printToCL:
     def print_added_to_reading_list(self):
         print("Thanks! It's been added to your reading list. ")
 
+    def print_no_results_found(self):
+        print("Hmm, it looks like there weren't any results. Try again? ")
+
+    def print_unknown_command(self):
+        print("Hmm, I don't have that option. Please enter 'search', 'select', 'view', or 'exit'. ")
+
     def print_goodbye(self):
         print("Thanks for book hunting. Happy Reading!")
 
@@ -157,32 +167,54 @@ class runProgram:
         self.printToCL = printToCL
         self.userInputRules = userInputRules
 
-    def make_the_program_work(self):
-        reading_list = self.bookSearching.reading_list
+    def starting_program(self):
         self.printToCL.print_opening_information()
+        self.make_the_program_work()
+
+    def make_the_program_work(self):
         select_search_or_exit = self.userInput.does_user_want_to_select_search_view_or_exit()
-        while select_search_or_exit == 'search':
-            text = self.userInput.get_search_text()
-            searchtype = self.userInput.get_searchtype()
-            keyword = self.userInput.get_search_keyword()
-            bookinfo = self.bookSearching.search_for_books(text, searchtype, keyword)
-            self.printToCL.print_book_info(bookinfo)
-            select_search_or_exit = self.userInput.does_user_want_to_select_search_view_or_exit()
-        while select_search_or_exit == 'select':
-            selected_book = self.userInput.select_a_book()
-            if self.userInputRules.check_if_selected_book_is_int(selected_book):
-                self.bookSearching.add_selected_book_to_reading_list(selected_book, bookinfo)
-                # reading_list = self.bookSearching.reading_list
-                self.printToCL.print_reading_list(reading_list)
-                select_search_or_exit = self.userInput.does_user_want_to_select_search_view_or_exit()
-            else:
-                self.printToCL.print_selected_book_is_not_int()
-                select_search_or_exit = self.userInput.does_user_want_to_select_search_view_or_exit()
-        while select_search_or_exit == 'view':
+        if select_search_or_exit == 'search':
+            self.searching_for_books()
+        elif select_search_or_exit == 'exit':
+            self.exit_program()
+        elif select_search_or_exit == 'select':
+            self.select_book()
+        elif select_search_or_exit == 'view':
+            self.view_reading_list()
+        else:
+            print(self.printToCL.print_unknown_command())
+            self.make_the_program_work()
+
+    def exit_program(self):
+        self.printToCL.print_goodbye()
+
+    def searching_for_books(self):
+        text = self.userInput.get_search_text()
+        searchtype = self.userInput.get_searchtype()
+        keyword = self.userInput.get_search_keyword()
+        bookinfo = self.bookSearching.search_for_books(text, searchtype, keyword)
+        if self.userInputRules.check_if_search_is_empty(bookinfo):
+            self.printToCL.print_no_results_found()
+            self.make_the_program_work()
+        self.printToCL.print_book_info(bookinfo)
+        self.make_the_program_work()
+
+    def select_book(self):
+        selected_book = self.userInput.select_a_book()
+        if self.userInputRules.check_if_selected_book_is_int(selected_book):
+            self.bookSearching.add_selected_book_to_reading_list(selected_book, self.bookSearching.bookinfo)
+            reading_list = self.bookSearching.reading_list
             self.printToCL.print_reading_list(reading_list)
-            select_search_or_exit = self.userInput.does_user_want_to_select_search_view_or_exit()
-        if select_search_or_exit == 'exit':
-            self.printToCL.print_goodbye()
+            self.make_the_program_work()
+        else:
+            self.printToCL.print_selected_book_is_not_int()
+            self.make_the_program_work()
+
+    def view_reading_list(self):
+        reading_list = self.bookSearching.reading_list
+        self.printToCL.print_reading_list(reading_list)
+        self.make_the_program_work()
+
 
 
 booksearch = bookSearching()
@@ -190,4 +222,5 @@ userinput = userInput()
 printtocl = printToCL()
 userinputrules = userInputRules()
 rundammit = runProgram(booksearch, userinput, printtocl, userinputrules)
+rundammit.starting_program()
 rundammit.make_the_program_work()
