@@ -1,6 +1,4 @@
 # // 1. Type in a query and display a list of 5 books matching that query
-# // (and you might have to reset maxResults to be 5 instead
-# // of the default 10)
 # // 2. Each item in the list should include the book's author, title, 
 # // and publishing company.
 # // 3. A user should be able to select a book from the five displayed
