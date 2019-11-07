@@ -7,6 +7,10 @@ This program allows users to access the Google Books API. Users can search for b
 
 The user is then able to browse books by the top 5 search results and can add them to a Reading List. Users can view the Reading List as well.
 
+**Running the Program**:
+
+Run the program with the command python main.py in the command line.
+
 **Code Description**:
 
 This project is built in Python using OOP. Imported Python libraries include json, requests, and sys to assist in reading the JSON info from Google Books and with exiting the program.
