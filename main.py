@@ -11,8 +11,15 @@ class bookSearching:
         self.bookinfo = bookinfo
 
     def search_for_books(self, text, searchtype, keyword):
-        response = requests.get('https://www.googleapis.com/books/v1/volumes?q=' + text + '+' + searchtype + ':' + keyword + '&key=AIzaSyCU2dyXMyOEp9rhcYonOmrhQ_ugikWyi9s')
-        data = json.loads(response.text)
+        if searchtype == "not available":
+            response = requests.get('https://www.googleapis.com/books/v1/volumes?q=' + keyword + '&key=AIzaSyCU2dyXMyOEp9rhcYonOmrhQ_ugikWyi9s')
+            data = json.loads(response.text)
+        elif text == "no":
+            response = requests.get('https://www.googleapis.com/books/v1/volumes?q=' + searchtype + ':' + keyword + '&key=AIzaSyCU2dyXMyOEp9rhcYonOmrhQ_ugikWyi9s')
+            data = json.loads(response.text)
+        else: 
+            response = requests.get('https://www.googleapis.com/books/v1/volumes?q=' + text + '+' + searchtype + ':' + keyword + '&key=AIzaSyCU2dyXMyOEp9rhcYonOmrhQ_ugikWyi9s')
+            data = json.loads(response.text)
         j = 1
         for i in range(5):
             try: 
@@ -43,36 +50,17 @@ class userInput:
         self.searchtype = searchtype
         self.keyword = keyword
 
-    def help_show_user_searchterms(self):
-        print("Here are the search keywords: ")
-        print("Use 'intitle' if the keyword is in the title.")
-        print("Use 'inauthor' if the keyword is in the author.")
-        print("Use 'inpublisher' if the keyword is in the publisher.")
-        print("Use 'insubject' if the keyword is in the subject.")
-        print("Use 'isbn' if you know the book's ISBN.")
-        print("Use 'lccn' to get the keyword's Library of Congress control number.")
-        print("Use 'oclc' to get the keyword's Online Computer Library Center number.")
-
     def get_search_text(self):
-        text = input("Give me text to search. ")
-        while text.lower() == "help":
-            self.help_show_user_searchterms()
-            text = input("Give me text to search. ")
-        return text
+        text = input("Is there an additional keyword to help with your search? If not, enter 'no'. ")
+        return text.lower()
         
     def get_searchtype(self):
-        searchtype = input("What's the search method for this? Type it in or write 'help' for help. ")
-        while searchtype.lower() == "help":
-            self.help_show_user_searchterms()
-            searchtype = input("What's the search method for this? Type it in or write 'help' for help. ")
-        return searchtype
+        searchtype = input("Is this keyword related to the author, the subject, the title, or the publisher? Enter 'inauthor', 'insubject', 'intitle', 'inpublisher', or 'not available'. ")
+        return searchtype.lower()
 
     def get_search_keyword(self):
-        keyword = input("What's the keyword for the book you want? ")
-        while keyword.lower() == "help":
-            self.help_show_user_searchterms()
-            keyword = input("What's the keyword for the book you want? ")
-        return keyword
+        keyword = input("What keyword do you want to look up? ")
+        return keyword.lower()
 
     def does_user_want_to_select_search_view_or_exit(self):
         answer = input("Do you want to search for a book, select a book for your reading list, view your reading list, or exit? Enter 'search', 'select', 'view', or 'exit'. ")
@@ -88,13 +76,17 @@ class userInputRules:
         pass
 
     def check_if_selected_book_is_int(self, selected_book):
-        if type(int(selected_book)) is int:
-            return True
+        try:
+            if type(int(selected_book)) is int:
+             return True
+        except ValueError:
+            return False
 
     def check_if_search_is_empty(self, bookinfo):
         if bookinfo[1] == ["No title listed", "No authors listed", "No publisher listed"]:
             return True
-
+        else:
+            return False
 
 class printToCL:
 
@@ -104,8 +96,7 @@ class printToCL:
     def print_opening_information(self):
         print(('*') * 6)
         print("Welcome to the Command Line Google Books API!")
-        print("You'll be asked to enter text you'd like to search for, what kind of search method you want to use, and what keywords to look for in that text.")
-        print("To see the different types of search methods, type 'help'. To exit the program, type 'exit'. ")
+        print("To exit the program, type 'exit'. ")
         print(('*') * 6)
 
     def print_book_info(self, bookinfo):
@@ -148,13 +139,16 @@ class printToCL:
         print("Hmm, that didn't work. Please enter only the number of the book you want to select.")
 
     def print_added_to_reading_list(self):
-        print("Thanks! It's been added to your reading list. ")
+        print("Great! It's been added to your reading list. ")
 
     def print_no_results_found(self):
         print("Hmm, it looks like there weren't any results. Try again? ")
 
     def print_unknown_command(self):
         print("Hmm, I don't have that option. Please enter 'search', 'select', 'view', or 'exit'. ")
+
+    def print_perform_search_first(self):
+        print("You need to perform a search before you can select a book. ")
 
     def print_goodbye(self):
         print("Thanks for book hunting. Happy Reading!")
@@ -189,9 +183,12 @@ class runProgram:
         self.printToCL.print_goodbye()
 
     def searching_for_books(self):
-        text = self.userInput.get_search_text()
-        searchtype = self.userInput.get_searchtype()
         keyword = self.userInput.get_search_keyword()
+        searchtype = self.userInput.get_searchtype()
+        if searchtype != "not available":
+            text = self.userInput.get_search_text()
+        else:
+            text = "no"
         bookinfo = self.bookSearching.search_for_books(text, searchtype, keyword)
         if self.userInputRules.check_if_search_is_empty(bookinfo):
             self.printToCL.print_no_results_found()
@@ -200,6 +197,9 @@ class runProgram:
         self.make_the_program_work()
 
     def select_book(self):
+        if self.userInputRules.check_if_search_is_empty(self.bookSearching.bookinfo):
+            self.printToCL.print_perform_search_first()
+            self.make_the_program_work()
         selected_book = self.userInput.select_a_book()
         if self.userInputRules.check_if_selected_book_is_int(selected_book):
             self.bookSearching.add_selected_book_to_reading_list(selected_book, self.bookSearching.bookinfo)
@@ -221,6 +221,6 @@ booksearch = bookSearching()
 userinput = userInput()
 printtocl = printToCL()
 userinputrules = userInputRules()
-rundammit = runProgram(booksearch, userinput, printtocl, userinputrules)
-rundammit.starting_program()
-rundammit.make_the_program_work()
+runningprogram = runProgram(booksearch, userinput, printtocl, userinputrules)
+runningprogram.starting_program()
+runingprogram.make_the_program_work()
