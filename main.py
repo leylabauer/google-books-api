@@ -2,8 +2,6 @@ import json
 import requests
 import sys
 
-key = 'AIzaSyCU2dyXMyOEp9rhcYonOmrhQ_ugikWyi9s'
-
 class bookSearching:
 
     def __init__(self, reading_list={}, bookinfo = {}):
@@ -82,6 +80,12 @@ class userInputRules:
         except ValueError:
             return False
 
+    def check_if_selected_book_int_is_in_list(self, selected_book):
+        if int(selected_book) in [1,2,3,4,5]:
+            return True
+        else:
+            return False
+
     def check_if_search_is_empty(self, bookinfo):
         if len(bookinfo) == 0:
             return True
@@ -143,8 +147,8 @@ class printToCL:
         else:
             print("Looks like your reading list is empty. ")
 
-    def print_selected_book_is_not_int(self):
-        print("Hmm, that didn't work. Please enter only the number of the book you want to select.")
+    def print_selected_book_is_not_accurate(self):
+        print("Hmm, that didn't work. Please enter a number only between 1-5 to select your book.")
 
     def print_added_to_reading_list(self):
         print("Great! It's been added to your reading list. ")
@@ -216,13 +220,13 @@ class runProgram:
             self.printToCL.print_perform_search_first()
             self.make_the_program_work()
         selected_book = self.userInput.select_a_book()
-        if self.userInputRules.check_if_selected_book_is_int(selected_book):
+        if self.userInputRules.check_if_selected_book_is_int(selected_book) and self.userInputRules.check_if_selected_book_int_is_in_list(selected_book):
             self.bookSearching.add_selected_book_to_reading_list(selected_book, self.bookSearching.bookinfo)
             reading_list = self.bookSearching.reading_list
             self.printToCL.print_reading_list(reading_list)
             self.make_the_program_work()
         else:
-            self.printToCL.print_selected_book_is_not_int()
+            self.printToCL.print_selected_book_is_not_accurate()
             self.make_the_program_work()
 
     def view_reading_list(self):

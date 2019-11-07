@@ -13,8 +13,14 @@ reading_list = booksearch.reading_list
 def test_if_selected_book_is_int_is_true():
     assert userinputrules.check_if_selected_book_is_int(2) is True
 
-def test_if_selected_book_is_int_is_true():
+def test_if_selected_book_is_int_is_false():
     assert userinputrules.check_if_selected_book_is_int("text") is False
+
+def test_if_selected_book_is_in_list_is_true():
+    assert userinputrules.check_if_selected_book_int_is_in_list(3) is True
+
+def test_if_selected_book_is_in_list_is_false():
+    assert userinputrules.check_if_selected_book_int_is_in_list(6) is False
 
 def test_if_search_is_empty():
     bookinfo.update({1: ["Cats", "Desmond Bauer", "Meowing House Publishing"]})
