@@ -1,5 +1,7 @@
 
-# Google Books Command Line API *by Leyla Bauer*
+# Google Books Command Line API
+*by Leyla Bauer*
+
 
 **Project Description**:
 
