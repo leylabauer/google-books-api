@@ -36,7 +36,13 @@ def test_if_searchtype_input_is_accurate_returns_true():
 def test_if_searchtype_input_is_accurate_returns_false():
     assert userinputrules.check_if_searchtype_input_is_accurate('text') is False
 
+def test_if_reading_list_is_empty_returns_true():
+    assert userinputrules.check_if_reading_list_is_empty(reading_list) is True
+
 def test_add_selected_book_to_reading_list_works():
     bookinfo.update({1: ["Cats", "Desmond Bauer", "Meowing House Publishing"]})
     booksearch.add_selected_book_to_reading_list(1, bookinfo)
     assert len(reading_list) is 1
+
+def test_if_reading_list_is_empty_returns_false():
+    assert userinputrules.check_if_reading_list_is_empty(reading_list) is False

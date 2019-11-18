@@ -15,7 +15,7 @@ Run the program with the command python main.py in the command line.
 
 **Code Description**:
 
-This project is built in Python using OOP. Imported Python libraries include json, requests, and sys to assist in reading the JSON info from Google Books and with exiting the program.
+This project is built in Python3 using OOP. Imported Python libraries include json, requests, and sys to assist in reading the JSON info from Google Books and with exiting the program.
 
 There are 5 classes that work together to run the program.
 
