@@ -225,10 +225,10 @@ class RunProgram:
 
 # To run the tests, comment out the code below.
 
-BookSearch = BookSearching()
-ReadingList = ReadingList()
-UserInput = UserInput()
-Print = Print()
-Rules = Rules()
-runningprogram = RunProgram(BookSearch, ReadingList, UserInput, Print, Rules)
+booksearching = BookSearching()
+readingList = ReadingList()
+userinput = UserInput()
+print_ = Print()
+rules = Rules()
+runningprogram = RunProgram(booksearching, readingList, userinput, print_, rules)
 runningprogram.start_program()
