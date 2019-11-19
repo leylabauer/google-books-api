@@ -9,6 +9,31 @@ runningprogram = RunProgram(booksearching, readingList, userinput, print_, rules
 book_info = booksearching.book_info
 reading_list = readingList.reading_list
 
+# Class BookSearching Tests
+
+def test_connection_to_google_books_api():
+    keyword = 'cat'
+    searchtype = 'insubject'
+    text = 'fuzzy'
+    data_status = requests.get(url='https://www.googleapis.com/books/v1/volumes?q=' + text + '+' + searchtype + ':' + keyword + '&key=AIzaSyCU2dyXMyOEp9rhcYonOmrhQ_ugikWyi9s')
+    assert data_status.status_code == 200
+
+def test_select_five_books():
+    keyword = 'cat'
+    searchtype = 'insubject'
+    text = 'fuzzy'
+    data = booksearching.search_for_books(text, searchtype, keyword)
+    book_info = booksearching.select_five_books(data)
+    assert len(book_info) == 5
+
+# Class ReadingList Tests
+
+# Class UserInput Tests
+
+# Class Print Tests
+
+# Class Rules Tests
+
 def test_is_selected_book_integer_is_true():
     assert rules.is_selected_book_integer(2) is True
 

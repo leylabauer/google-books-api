@@ -113,7 +113,6 @@ class Rules:
             return True
         else:
             return False
-
 class Print:
 
     def __init__(self):
