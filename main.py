@@ -99,6 +99,8 @@ class Rules:
             return True
         elif book_info[1] == ["No title listed", "No authors listed", "No publisher listed"]:
             return True
+        else:
+            return False
 
     def is_searchtype_valid(self, searchtype):
         if searchtype in ['inauthor', 'insubject', 'intitle', 'inpublisher']:
@@ -223,12 +225,7 @@ class RunProgram:
             self.Print.print_reading_list(reading_list)
         self.ask_user()
 
-# To run the tests, comment out the code below.
 
-booksearching = BookSearching()
-readingList = ReadingList()
-userinput = UserInput()
-print_ = Print()
-rules = Rules()
-runningprogram = RunProgram(booksearching, readingList, userinput, print_, rules)
-runningprogram.start_program()
+if __name__ == '__main__':
+    runningprogram = RunProgram(BookSearching(), ReadingList(), UserInput(), Print(), Rules())
+    runningprogram.start_program()

@@ -21,6 +21,10 @@ json, requests, and sys modules are used in the program but no packages need to 
 
 **Tests**
 
+Tests are run with Pytest. To do so, you must first install Pytest via the command line:
+
+'pip install pytest' 
+
 Several tests have been included, created and tested with pytest. This is a section which can be expanded upon in the future. To run the tests as given, the code at the bottom of main.py which instantiates the objects and starts the program must be commented out. A comment in the main.py code itself shows where the code must be commented out to run the tests.
 
 **Author**
