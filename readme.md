@@ -1,5 +1,5 @@
 
-# Google Books Command Line Program
+# Google Books Command Line Search
 
 **Project Description**:
 

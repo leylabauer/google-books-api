@@ -169,7 +169,7 @@ class RunProgram:
         self.rules = rules
 
     def start_program(self):
-        self.print_.print_statement("Welcome to the Command Line Google Books API! To exit the program, type 'exit'. ")
+        self.print_.print_statement("Welcome to the Google Books Command Line Search! To exit the program, type 'exit'. ")
         self.ask_user()
 
     def ask_user(self):
