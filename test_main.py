@@ -26,12 +26,6 @@ def test_select_five_books():
     book_info = booksearching.select_five_books(data)
     assert len(book_info) == 5
 
-# Class ReadingList Tests
-
-# Class UserInput Tests
-
-# Class Print Tests
-
 # Class Rules Tests
 
 def test_is_selected_book_integer_is_true():
@@ -63,10 +57,14 @@ def test_is_searchtype_valid_is_false():
 def test_is_reading_list_empty_is_true():
     assert rules.is_reading_list_empty(reading_list) is True
 
+# Class ReadingList Tests
+
 def test_add_to_reading_list_works():
     book_info.update({1: ["Cats", "Desmond Bauer", "Meowing House Publishing"]})
     readingList.add_to_reading_list(1, book_info)
     assert len(reading_list) is 1
+
+# Second Class Rules Tests
 
 def test_is_reading_list_empty_is_false():
     assert rules.is_reading_list_empty(reading_list) is False

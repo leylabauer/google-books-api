@@ -21,7 +21,14 @@ Run the program with the command
 
 **Prerequisites**
 
-json, requests, and sys modules are used in the program but no packages need to be installed for it to run.
+Builtin modules sys and json are used. The module requests version 2.21 is utilized as well to handle the request for JSON data. Pytest version 4.3.1 is used for testing.
+
+To install requests, type the following in the command line:
+
+'pip install requests'
+
+To install Pytest, type the following in the command line:
+'pip install pytest'
 
 **Tests**
 

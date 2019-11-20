@@ -39,6 +39,7 @@ class BookSearching:
             j += 1
         return self.book_info
 
+
 class ReadingList:
 
     def __init__(self, reading_list = {}):
@@ -48,6 +49,7 @@ class ReadingList:
         book_to_add = book_info[int(selected_book)]
         book_number = len(self.reading_list) + 1
         self.reading_list.update({book_number: book_to_add})
+
 
 class UserInput:
 
@@ -75,6 +77,7 @@ class UserInput:
     def select_a_book(self):
         selected_book = input("What book number do you want to select? ")
         return selected_book
+
 
 class Rules:
 
@@ -113,6 +116,8 @@ class Rules:
             return True
         else:
             return False
+
+
 class Print:
 
     def __init__(self):
@@ -153,21 +158,22 @@ class Print:
         print(statement)
         print('*' * 6)
 
+
 class RunProgram:
 
-    def __init__(self, BookSearching, ReadingList, UserInput, Print, Rules):
-        self.BookSearching = BookSearching
-        self.ReadingList = ReadingList
-        self.UserInput = UserInput
-        self.Print = Print
-        self.Rules = Rules
+    def __init__(self, book_searching, readingList, user_input, print_, rules):
+        self.book_searching = book_searching
+        self.readingList = readingList
+        self.user_input = user_input
+        self.print_ = print_
+        self.rules = rules
 
     def start_program(self):
-        self.Print.print_statement("Welcome to the Command Line Google Books API! To exit the program, type 'exit'. ")
+        self.print_.print_statement("Welcome to the Command Line Google Books API! To exit the program, type 'exit'. ")
         self.ask_user()
 
     def ask_user(self):
-        user_command = self.UserInput.get_user_command()
+        user_command = self.user_input.get_user_command()
         if user_command == 'search':
             self.search_for_books()
         elif user_command == 'exit':
@@ -177,51 +183,51 @@ class RunProgram:
         elif user_command == 'view':
             self.view_reading_list()
         else:
-            self.Print.print_statement("Hmm, I don't have that option. Please enter 'search', 'select', 'view', or 'exit'. ")
+            self.print_.print_statement("Hmm, I don't have that option. Please enter 'search', 'select', 'view', or 'exit'. ")
             self.ask_user()
 
     def exit_program(self):
-        self.Print.print_statement("Thanks for book hunting. Happy Reading!")
+        self.print_.print_statement("Thanks for book hunting. Happy Reading!")
         sys.exit()
 
     def search_for_books(self):
-        keyword = self.UserInput.get_search_keyword()
-        searchtype = self.UserInput.get_search_type()
+        keyword = self.user_input.get_search_keyword()
+        searchtype = self.user_input.get_search_type()
         if searchtype == "no":
             text = "no"
-        elif searchtype != "no" and not self.Rules.is_searchtype_valid(searchtype):
-            self.Print.print_statement("Hmm, I don't have that as a searchtype. Try again? ")
+        elif searchtype != "no" and not self.rules.is_searchtype_valid(searchtype):
+            self.print_.print_statement("Hmm, I don't have that as a searchtype. Try again? ")
             self.search_for_books()
         else:
-            text = self.UserInput.get_search_text()
-        data = self.BookSearching.search_for_books(text, searchtype, keyword)
-        book_info = self.BookSearching.select_five_books(data)
-        if self.Rules.is_search_empty(book_info):
-            self.Print.print_statement("Hmm, it looks like there weren't any results. Try again? ")
+            text = self.user_input.get_search_text()
+        data = self.book_searching.search_for_books(text, searchtype, keyword)
+        book_info = self.book_searching.select_five_books(data)
+        if self.rules.is_search_empty(book_info):
+            self.print_.print_statement("Hmm, it looks like there weren't any results. Try again? ")
         else:
-            self.Print.print_book_info(book_info)
+            self.print_.print_book_info(book_info)
         self.ask_user()
 
     def select_book(self):
-        if self.Rules.is_search_empty(self.BookSearching.book_info):
-            self.Print.print_statement("You need to perform a search before you can select a book to add to your reading list. ")
+        if self.rules.is_search_empty(self.book_searching.book_info):
+            self.print_.print_statement("You need to perform a search before you can select a book to add to your reading list. ")
             self.ask_user()
-        selected_book = self.UserInput.select_a_book()
-        if self.Rules.is_selected_book_integer(selected_book) and self.Rules.is_selected_book_in_book_info(selected_book):
-            self.ReadingList.add_to_reading_list(selected_book, self.BookSearching.book_info)
-            self.Print.print_statement("Here's your current reading list: ")
-            self.Print.print_reading_list(self.ReadingList.reading_list)
+        selected_book = self.user_input.select_a_book()
+        if self.rules.is_selected_book_integer(selected_book) and self.rules.is_selected_book_in_book_info(selected_book):
+            self.readingList.add_to_reading_list(selected_book, self.book_searching.book_info)
+            self.print_.print_statement("Here's your current reading list: ")
+            self.print_.print_reading_list(self.readingList.reading_list)
         else:
-            self.Print.print_statement("Hmm, that didn't work. Please enter a number only between 1-5 to select your book.")
+            self.print_.print_statement("Hmm, that didn't work. Please enter a number only between 1-5 to select your book.")
         self.ask_user()
 
     def view_reading_list(self):
-        reading_list = self.ReadingList.reading_list
-        if self.Rules.is_reading_list_empty(reading_list):
-            self.Print.print_statement("Looks like your reading list is empty. ")
+        reading_list = self.readingList.reading_list
+        if self.rules.is_reading_list_empty(reading_list):
+            self.print_.print_statement("Looks like your reading list is empty. ")
         else:
-            self.Print.print_statement("Here's your current reading list. ")
-            self.Print.print_reading_list(reading_list)
+            self.print_.print_statement("Here's your current reading list. ")
+            self.print_.print_reading_list(reading_list)
         self.ask_user()
 
 
