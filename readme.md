@@ -13,7 +13,11 @@ Written in Python 3.7.3
 
 **Running the Program**:
 
-Run the program with the command python main.py in the command line.
+Run the program with the command 
+
+'python main.py'
+
+ in the command line.
 
 **Prerequisites**
 
@@ -21,18 +25,23 @@ json, requests, and sys modules are used in the program but no packages need to 
 
 **Tests**
 
-Tests are run with Pytest. To do so, you must first install Pytest via the command line:
+Tests are run with Pytest. To run the tests (first be sure that Pytest is installed), run the following on the command line:
 
-'pip install pytest' 
+'pytest test_main.py'
 
-Several tests have been included, created and tested with pytest. This is a section which can be expanded upon in the future. To run the tests as given, the code at the bottom of main.py which instantiates the objects and starts the program must be commented out. A comment in the main.py code itself shows where the code must be commented out to run the tests.
+**Updates**
+
+Several critical updates have been made to the project.
+
+1. Variables/classes/methods have been renamed to be shorter, cleaner, and clearer.
+2. Tests have been added to help with the testing of receiving JSON data from Google Books, testing the info given to various methods is data that can be interpreted by the program, etc.
+3. Tests can now be run without having to comment out any code in the main file.
+4. Print functions have been reduced.
+5. An additional class to help make sure that every class/method has one function has been added.
 
 **Author**
 
 Built by Leyla Bauer
 
-**Code Description**:
-
-This project is built in Python3 using OOP. Imported Python libraries include json, requests, and sys to assist in reading the JSON info from Google Books and with exiting the program.
 
 
